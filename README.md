@@ -138,7 +138,7 @@ print(result);
 
 ## Companion Website
 
-See the [Crit companion website](https://aaronmcbride.github.io/crit) for a full overview, syntax-highlighted examples, and grammar reference.
+See the [Crit companion website](https://github.com/AmcVoid/lmu-cmsi3802) for a full overview, syntax-highlighted examples, and grammar reference.
 
 ## Grammar
 
