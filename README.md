@@ -1,6 +1,6 @@
 # Crit (Critical Hit)
 
-<img src="docs/logo.png" alt="Crit Logo" style="max-width: 300px; width: 100%;">
+<img src="docs/logo.png" alt="Crit Logo" style="max-width: 200px; width: 100%;">
 
 Crit is a statically typed, educational programming language with C-like syntax that compiles to JavaScript. Designed for clarity and correctness, Crit catches errors at compile time so your code lands every hit. The compiler is built in JavaScript using the [Ohm.js](https://ohmjs.org/) parsing framework.
 
