@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crit — Critical Hit Programming Language</title>
+  <style>
+    :root {
+      --navy: #1a2744;
+      --blue: #1e3a6e;
+      --accent: #2e6fbe;
+      --gold: #c8a84b;
+      --light: #f4f6fb;
+      --white: #ffffff;
+      --code-bg: #12192b;
+      --code-fg: #e2e8f8;
+      --border: #d0d8eb;
+      --text: #1e2433;
+      --muted: #5a6480;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--light);
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+      color: var(--white);
+      padding: 3rem 2rem 2.5rem;
+      text-align: center;
+      border-bottom: 4px solid var(--gold);
+    }
+
+    header img {
+      width: 180px;
+      margin-bottom: 1.25rem;
+      filter: drop-shadow(0 4px 16px rgba(0,0,0,0.4));
+    }
+
+    header h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    header h1 span {
+      color: var(--gold);
+    }
+
+    header p.tagline {
+      font-size: 1.15rem;
+      color: #a8bcdf;
+      margin-top: 0.5rem;
+    }
+
+    header .badges {
+      margin-top: 1.25rem;
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    header .badge {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #cdd8f0;
+      padding: 0.3rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    /* ── Nav ── */
+    nav {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    nav ul li a {
+      display: block;
+      padding: 0.9rem 1.4rem;
+      color: var(--blue);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.2px;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    nav ul li a:hover {
+      background: var(--light);
+      color: var(--accent);
+    }
+
+    /* ── Main layout ── */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2rem 4rem;
+    }
+
+    section {
+      margin-bottom: 4rem;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--border);
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--blue);
+      margin: 1.75rem 0 0.6rem;
+    }
+
+    p { margin-bottom: 1rem; }
+
+    /* ── Feature grid ── */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .feature-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem 1.4rem;
+      border-left: 4px solid var(--accent);
+    }
+
+    .feature-card h4 {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.35rem;
+    }
+
+    .feature-card p {
+      font-size: 0.87rem;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    /* ── Code blocks ── */
+    .example {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .example-header {
+      background: var(--navy);
+      color: #a8bcdf;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.55rem 1.1rem;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .example-header .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: inline-block;
+    }
+
+    pre {
+      background: var(--code-bg);
+      color: var(--code-fg);
+      padding: 1.4rem 1.6rem;
+      overflow-x: auto;
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.9rem;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    /* Syntax highlighting */
+    .kw  { color: #79b8ff; font-weight: 600; }
+    .ty  { color: #85e89d; }
+    .fn  { color: #b392f0; }
+    .num { color: #f8c555; }
+    .str { color: #f97583; }
+    .cmt { color: #6a737d; font-style: italic; }
+    .op  { color: #e1e4e8; }
+
+    /* ── Grammar table ── */
+    .grammar-block {
+      background: var(--code-bg);
+      color: var(--code-fg);
+      border-radius: 10px;
+      padding: 1.4rem 1.6rem;
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.85rem;
+      line-height: 1.8;
+      overflow-x: auto;
+    }
+
+    .grammar-block .rule  { color: #79b8ff; }
+    .grammar-block .arrow { color: #6a737d; }
+    .grammar-block .lit   { color: #f97583; }
+    .grammar-block .nt    { color: #85e89d; }
+    .grammar-block .meta  { color: #f8c555; }
+
+    /* ── Author card ── */
+    .author-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.75rem 2rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+
+    .author-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--navy), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--white);
+      flex-shrink: 0;
+    }
+
+    .author-info h3 {
+      margin: 0 0 0.3rem;
+      font-size: 1.1rem;
+      color: var(--navy);
+    }
+
+    .author-info p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    /* ── Links ── */
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .btn {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--white);
+      padding: 0.6rem 1.4rem;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-top: 0.75rem;
+      transition: background 0.15s;
+    }
+
+    .btn:hover {
+      background: var(--navy);
+      text-decoration: none;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--navy);
+      color: #8899bb;
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.85rem;
+    }
+
+    footer a { color: var(--gold); }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="logo.png" alt="Crit Logo">
+  <h1>Crit <span>/ Critical Hit</span></h1>
+  <p class="tagline">A statically typed, educational programming language that compiles to JavaScript</p>
+  <div class="badges">
+    <span class="badge">Static Typing</span>
+    <span class="badge">Type Inference</span>
+    <span class="badge">Constant Folding</span>
+    <span class="badge">Compiles to JS</span>
+    <span class="badge">Node.js &gt;= 18</span>
+  </div>
+</header>
+
+<nav>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#examples">Examples</a></li>
+    <li><a href="#grammar">Grammar</a></li>
+    <li><a href="#author">Author</a></li>
+    <li><a href="https://github.com/aaronmcbride/crit" target="_blank">GitHub</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- About -->
+  <section id="about">
+    <h2>About Crit</h2>
+    <p>
+      Crit (Critical Hit) is a statically typed, educational programming language with a clean C-like syntax
+      that compiles directly to JavaScript. Its name comes from the tabletop RPG concept of rolling a natural 20 —
+      a perfect strike. In Crit, the compiler is your dungeon master: it catches your mistakes before they ever
+      reach runtime. Every type error, undeclared variable, and argument mismatch is flagged at compile time so
+      your program lands clean every time.
+    </p>
+    <p>
+      The compiler is implemented in JavaScript using the <a href="https://ohmjs.org/" target="_blank">Ohm.js</a>
+      parsing framework and follows a classic three-phase design: parsing, semantic analysis, and code generation,
+      with an optimization pass that performs constant folding. Crit is intentionally minimal — its purpose is to
+      be readable, teachable, and correct.
+    </p>
+    <p>
+      Whether you are learning about compilers, exploring language design, or just want a language where the rules
+      are enforced by the toolchain rather than by convention, Crit is built for you. Roll for initiative.
+    </p>
+  </section>
+
+  <!-- Features -->
+  <section id="features">
+    <h2>Features</h2>
+    <div class="features">
+      <div class="feature-card">
+        <h4>Static Typing</h4>
+        <p>Types are checked at compile time. Annotate variables and function signatures with <code>: int</code>, <code>: bool</code>, etc.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Type Inference</h4>
+        <p>Use <code>let x = 10;</code> and the compiler infers the type — no annotation required.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Structs</h4>
+        <p>Define custom data structures with typed fields. Struct instances are compiled to ES6 classes.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Functions</h4>
+        <p>First-class functions with typed parameters and return types. Recursive calls are fully supported.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Control Flow</h4>
+        <p><code>if/else</code>, <code>while</code>, <code>break</code>, and <code>return</code> — all with compile-time validation.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Constant Folding</h4>
+        <p>The optimizer evaluates constant expressions at compile time. <code>2 + 3 * 4</code> becomes <code>14</code> in the output.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Semantic Checks</h4>
+        <p>Undeclared variables, duplicate declarations, break-outside-loop, type mismatches, and arg-count errors all throw at compile time.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Compiles to JS</h4>
+        <p>Output is clean, readable JavaScript. Run the result directly with Node.js — no runtime library needed.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Examples -->
+  <section id="examples">
+    <h2>Example Programs</h2>
+
+    <h3>Fibonacci</h3>
+    <div class="example">
+      <div class="example-header"><span class="dot"></span>fibonacci.crit</div>
+      <pre><span class="kw">fn</span> <span class="fn">fib</span>(<span class="op">n</span>: <span class="ty">int</span>) <span class="op">-&gt;</span> <span class="ty">int</span> {
+  <span class="kw">if</span> n <span class="op">&lt;=</span> <span class="num">1</span> {
+    <span class="kw">return</span> n;
+  }
+  <span class="kw">return</span> <span class="fn">fib</span>(n <span class="op">-</span> <span class="num">1</span>) <span class="op">+</span> <span class="fn">fib</span>(n <span class="op">-</span> <span class="num">2</span>);
+}
+
+<span class="fn">print</span>(<span class="fn">fib</span>(<span class="num">10</span>));   <span class="cmt">// 55</span></pre>
+    </div>
+
+    <h3>Structs</h3>
+    <div class="example">
+      <div class="example-header"><span class="dot"></span>structs.crit</div>
+      <pre><span class="kw">struct</span> <span class="ty">Point</span> {
+  x: <span class="ty">int</span>
+  y: <span class="ty">int</span>
+}
+
+<span class="kw">fn</span> <span class="fn">add_points</span>(p1: <span class="ty">Point</span>, p2: <span class="ty">Point</span>) <span class="op">-&gt;</span> <span class="ty">Point</span> {
+  <span class="kw">return</span> <span class="fn">Point</span>(p1.x <span class="op">+</span> p2.x, p1.y <span class="op">+</span> p2.y);
+}
+
+<span class="kw">let</span> p1 <span class="op">=</span> <span class="fn">Point</span>(<span class="num">1</span>, <span class="num">2</span>);
+<span class="kw">let</span> p2 <span class="op">=</span> <span class="fn">Point</span>(<span class="num">3</span>, <span class="num">4</span>);
+<span class="kw">let</span> p3 <span class="op">=</span> <span class="fn">add_points</span>(p1, p2);
+<span class="fn">print</span>(p3.x);  <span class="cmt">// 4</span>
+<span class="fn">print</span>(p3.y);  <span class="cmt">// 6</span></pre>
+    </div>
+
+    <h3>While Loop with Break</h3>
+    <div class="example">
+      <div class="example-header"><span class="dot"></span>while_break.crit</div>
+      <pre><span class="kw">let</span> i: <span class="ty">int</span> <span class="op">=</span> <span class="num">0</span>;
+<span class="kw">while</span> i <span class="op">&lt;</span> <span class="num">10</span> {
+  <span class="kw">if</span> i <span class="op">==</span> <span class="num">5</span> {
+    <span class="kw">break</span>;
+  }
+  <span class="fn">print</span>(i);   <span class="cmt">// prints 0 1 2 3 4</span>
+  i <span class="op">=</span> i <span class="op">+</span> <span class="num">1</span>;
+}</pre>
+    </div>
+
+    <h3>Boolean Logic</h3>
+    <div class="example">
+      <div class="example-header"><span class="dot"></span>boolean.crit</div>
+      <pre><span class="kw">fn</span> <span class="fn">is_teen</span>(age: <span class="ty">int</span>) <span class="op">-&gt;</span> <span class="ty">bool</span> {
+  <span class="kw">return</span> age <span class="op">&gt;=</span> <span class="num">13</span> <span class="op">&amp;&amp;</span> age <span class="op">&lt;=</span> <span class="num">19</span>;
+}
+
+<span class="kw">fn</span> <span class="fn">can_vote</span>(age: <span class="ty">int</span>, citizen: <span class="ty">bool</span>) <span class="op">-&gt;</span> <span class="ty">bool</span> {
+  <span class="kw">return</span> age <span class="op">&gt;=</span> <span class="num">18</span> <span class="op">&amp;&amp;</span> citizen;
+}
+
+<span class="kw">let</span> teen: <span class="ty">bool</span> <span class="op">=</span> <span class="fn">is_teen</span>(<span class="num">15</span>);
+<span class="kw">let</span> vote: <span class="ty">bool</span> <span class="op">=</span> <span class="fn">can_vote</span>(<span class="num">20</span>, <span class="kw">true</span>);
+<span class="fn">print</span>(teen);  <span class="cmt">// true</span>
+<span class="fn">print</span>(vote);  <span class="cmt">// true</span></pre>
+    </div>
+
+    <h3>Function Composition</h3>
+    <div class="example">
+      <div class="example-header"><span class="dot"></span>composition.crit</div>
+      <pre><span class="kw">fn</span> <span class="fn">double</span>(n: <span class="ty">int</span>) <span class="op">-&gt;</span> <span class="ty">int</span> { <span class="kw">return</span> n <span class="op">*</span> <span class="num">2</span>; }
+<span class="kw">fn</span> <span class="fn">increment</span>(n: <span class="ty">int</span>) <span class="op">-&gt;</span> <span class="ty">int</span> { <span class="kw">return</span> n <span class="op">+</span> <span class="num">1</span>; }
+<span class="kw">fn</span> <span class="fn">square</span>(n: <span class="ty">int</span>) <span class="op">-&gt;</span> <span class="ty">int</span> { <span class="kw">return</span> n <span class="op">*</span> n; }
+
+<span class="cmt">// square(increment(double(3))) = square(7) = 49</span>
+<span class="kw">let</span> result: <span class="ty">int</span> <span class="op">=</span> <span class="fn">square</span>(<span class="fn">increment</span>(<span class="fn">double</span>(<span class="num">3</span>)));
+<span class="fn">print</span>(result);  <span class="cmt">// 49</span></pre>
+    </div>
+
+    <h3>Arithmetic &amp; Constant Folding</h3>
+    <div class="example">
+      <div class="example-header"><span class="dot"></span>arithmetic.crit</div>
+      <pre><span class="kw">fn</span> <span class="fn">square</span>(n: <span class="ty">int</span>) <span class="op">-&gt;</span> <span class="ty">int</span> { <span class="kw">return</span> n <span class="op">*</span> n; }
+<span class="kw">fn</span> <span class="fn">average</span>(a: <span class="ty">int</span>, b: <span class="ty">int</span>) <span class="op">-&gt;</span> <span class="ty">int</span> { <span class="kw">return</span> (a <span class="op">+</span> b) <span class="op">/</span> <span class="num">2</span>; }
+
+<span class="fn">print</span>(<span class="fn">square</span>(<span class="num">7</span>));          <span class="cmt">// 49</span>
+<span class="fn">print</span>(<span class="fn">average</span>(<span class="num">10</span>, <span class="num">20</span>));    <span class="cmt">// 15</span>
+
+<span class="cmt">// Optimizer folds this at compile time:</span>
+<span class="kw">let</span> x: <span class="ty">int</span> <span class="op">=</span> <span class="num">3</span> <span class="op">+</span> <span class="num">4</span> <span class="op">*</span> <span class="num">2</span>;   <span class="cmt">// becomes: let x = 11</span>
+<span class="kw">let</span> y: <span class="ty">int</span> <span class="op">=</span> (<span class="num">3</span> <span class="op">+</span> <span class="num">4</span>) <span class="op">*</span> <span class="num">2</span>; <span class="cmt">// becomes: let y = 14</span></pre>
+    </div>
+
+  </section>
+
+  <!-- Grammar -->
+  <section id="grammar">
+    <h2>Grammar Reference</h2>
+    <p>The full grammar is defined in <a href="https://github.com/aaronmcbride/crit/blob/main/src/crit.ohm" target="_blank">src/crit.ohm</a> using the Ohm.js PEG framework. Key rules:</p>
+    <div class="grammar-block">
+<span class="rule">Program</span>    <span class="arrow">=</span> <span class="nt">Decl</span><span class="meta">*</span>
+<span class="rule">Decl</span>       <span class="arrow">=</span> <span class="nt">TypeDecl</span> <span class="op">|</span> <span class="nt">FunDecl</span> <span class="op">|</span> <span class="nt">VarDecl</span> <span class="op">|</span> <span class="nt">Stmt</span>
+<span class="rule">TypeDecl</span>   <span class="arrow">=</span> <span class="lit">"struct"</span> <span class="nt">id</span> <span class="lit">"{"</span> <span class="nt">Field</span><span class="meta">*</span> <span class="lit">"}"</span>
+<span class="rule">FunDecl</span>    <span class="arrow">=</span> <span class="lit">"fn"</span> <span class="nt">id</span> <span class="lit">"("</span> <span class="nt">Params</span> <span class="lit">")"</span> (<span class="lit">"-&gt;"</span> <span class="nt">Type</span>)<span class="meta">?</span> <span class="nt">Block</span>
+<span class="rule">VarDecl</span>    <span class="arrow">=</span> <span class="lit">"let"</span> <span class="nt">id</span> <span class="lit">":"</span> <span class="nt">Type</span> <span class="lit">"="</span> <span class="nt">Exp</span> <span class="lit">";"</span>   <span class="cmt">-- with type</span>
+           <span class="op">|</span> <span class="lit">"let"</span> <span class="nt">id</span> <span class="lit">"="</span> <span class="nt">Exp</span> <span class="lit">";"</span>           <span class="cmt">-- inferred</span>
+<span class="rule">Type</span>       <span class="arrow">=</span> <span class="lit">"int"</span> <span class="op">|</span> <span class="lit">"string"</span> <span class="op">|</span> <span class="lit">"bool"</span> <span class="op">|</span> <span class="lit">"void"</span> <span class="op">|</span> <span class="nt">id</span>
+<span class="rule">Stmt</span>       <span class="arrow">=</span> <span class="lit">"return"</span> <span class="nt">Exp</span><span class="meta">?</span> <span class="lit">";"</span>
+           <span class="op">|</span> <span class="lit">"break"</span> <span class="lit">";"</span>
+           <span class="op">|</span> <span class="lit">"if"</span> <span class="nt">Exp</span> <span class="nt">Block</span> (<span class="lit">"else"</span> <span class="nt">Block</span>)<span class="meta">?</span>
+           <span class="op">|</span> <span class="lit">"while"</span> <span class="nt">Exp</span> <span class="nt">Block</span>
+           <span class="op">|</span> <span class="lit">"print"</span> <span class="lit">"("</span> <span class="nt">Exp</span> <span class="lit">")"</span> <span class="lit">";"</span>
+<span class="rule">Exp</span>        <span class="arrow">=</span> <span class="nt">Exp</span> <span class="lit">"||"</span> <span class="nt">Exp1</span>  <span class="cmt">-- or</span>
+<span class="rule">Exp1</span>       <span class="arrow">=</span> <span class="nt">Exp1</span> <span class="lit">"&amp;&amp;"</span> <span class="nt">Exp2</span>  <span class="cmt">-- and</span>
+<span class="rule">Exp2</span>       <span class="arrow">=</span> <span class="nt">Exp3</span> <span class="nt">relop</span> <span class="nt">Exp3</span>  <span class="cmt">-- compare</span>
+<span class="rule">Exp3–Exp4</span>  <span class="arrow">=</span> <span class="nt">addop</span> / <span class="nt">mulop</span> arithmetic
+<span class="rule">Exp5</span>       <span class="arrow">=</span> <span class="nt">unop</span> <span class="nt">Exp6</span>       <span class="cmt">-- unary (- !)</span>
+<span class="rule">Exp6</span>       <span class="arrow">=</span> <span class="nt">Exp6</span> <span class="lit">"."</span> <span class="nt">id</span>     <span class="cmt">-- member access</span>
+    </div>
+  </section>
+
+  <!-- Author -->
+  <section id="author">
+    <h2>Author</h2>
+    <div class="author-card">
+      <div class="author-avatar">AM</div>
+      <div class="author-info">
+        <h3>Aaron McBride</h3>
+        <p>
+          Computer Science student and compiler enthusiast. Crit was built as a self-study project to explore
+          language design, PEG grammars, semantic analysis, and code generation — all from scratch using
+          JavaScript and Ohm.js.
+        </p>
+        <a class="btn" href="https://github.com/aaronmcbride/crit" target="_blank">View on GitHub</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>Crit (Critical Hit) &mdash; built by Aaron McBride &mdash; <a href="https://github.com/aaronmcbride/crit" target="_blank">GitHub</a></p>
+</footer>
+
+</body>
+</html>

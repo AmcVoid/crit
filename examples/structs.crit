@@ -1,0 +1,15 @@
+struct Point {
+  x: int
+  y: int
+}
+
+fn add_points(p1: Point, p2: Point) -> Point {
+  return Point(p1.x + p2.x, p1.y + p2.y);
+}
+
+let p1 = Point(1, 2);
+let p2 = Point(3, 4);
+let p3 = add_points(p1, p2);
+
+print(p3.x);
+print(p3.y);

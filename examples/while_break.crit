@@ -1,0 +1,9 @@
+// Count up to 10 using a while loop, then break early at 5
+let i: int = 0;
+while i < 10 {
+  if i == 5 {
+    break;
+  }
+  print(i);
+  i = i + 1;
+}

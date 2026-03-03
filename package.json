@@ -1,0 +1,28 @@
+{
+    "name": "crit-lang",
+    "version": "1.0.0",
+    "description": "A compiler for the Crit language (Critical Hit)",
+    "main": "src/compiler.js",
+    "type": "module",
+    "scripts": {
+        "test": "mocha test/**/*.test.js",
+        "coverage": "c8 mocha test/**/*.test.js",
+        "lint": "prettier --check .",
+        "format": "prettier --write ."
+    },
+    "author": "Aaron McBride",
+    "license": "ISC",
+    "dependencies": {
+        "ohm-js": "^17.1.0",
+        "yargs": "^17.7.2"
+    },
+    "devDependencies": {
+        "c8": "^11.0.0",
+        "chai": "^5.0.0",
+        "mocha": "^10.2.0",
+        "prettier": "^3.0.0"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    }
+}

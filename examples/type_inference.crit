@@ -1,0 +1,13 @@
+// Type inference: variables declared with let and no type annotation
+let count = 0;
+let flag = true;
+
+count = count + 1;
+print(count);
+print(flag);
+
+// Inferred types work in expressions
+let doubled = count * 2;
+let negated = !flag;
+print(doubled);
+print(negated);

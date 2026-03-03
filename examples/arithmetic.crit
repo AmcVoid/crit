@@ -1,0 +1,21 @@
+// Arithmetic operators: +, -, *, /, %
+fn square(n: int) -> int {
+  return n * n;
+}
+
+fn average(a: int, b: int) -> int {
+  return (a + b) / 2;
+}
+
+fn remainder(a: int, b: int) -> int {
+  return a % b;
+}
+
+print(square(7));
+print(average(10, 20));
+print(remainder(17, 5));
+
+let x: int = 3 + 4 * 2;
+let y: int = (3 + 4) * 2;
+print(x);
+print(y);

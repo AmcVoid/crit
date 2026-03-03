@@ -1,0 +1,20 @@
+// Boolean expressions and logical operators
+fn is_teen(age: int) -> bool {
+  return age >= 13 && age <= 19;
+}
+
+fn is_valid_score(score: int) -> bool {
+  return score >= 0 && score <= 100;
+}
+
+fn can_vote(age: int, citizen: bool) -> bool {
+  return age >= 18 && citizen;
+}
+
+let teen: bool = is_teen(15);
+let valid: bool = is_valid_score(85);
+let vote: bool = can_vote(20, true);
+
+print(teen);
+print(valid);
+print(vote);

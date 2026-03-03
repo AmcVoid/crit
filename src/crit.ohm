@@ -1,0 +1,69 @@
+Crit {
+  Program     = Decl*
+  Decl        = TypeDecl | FunDecl | VarDecl | Stmt
+  
+  TypeDecl    = "struct" id "{" Field* "}"
+  Field       = id ":" Type
+  
+  FunDecl     = "fn" id "(" Params ")" ("->" Type)? Block
+  Params      = ListOf<Param, ",">
+  Param       = id ":" Type
+  
+  VarDecl     = "let" id ":" Type "=" Exp ";"  -- init
+              | "let" id "=" Exp ";"           -- infer
+  
+  Type        = "int" | "string" | "bool" | "void" | id
+  
+  Stmt        = VarDecl                       -- vardecl
+              | "return" Exp? ";"             -- return
+              | "break" ";"                   -- break
+              | "if" Exp Block ("else" Block)? -- if
+              | "while" Exp Block             -- while
+              | "print" "(" Exp ")" ";"       -- print
+              | Block                         -- block
+              | Assignment ";"                -- assign
+              | Call ";"                      -- call
+  
+  Block       = "{" Stmt* "}"
+  
+  Assignment  = id "=" Exp
+  
+  Exp         = Exp "||" Exp1                 -- or
+              | Exp1                          -- next
+  Exp1        = Exp1 "&&" Exp2                -- and
+              | Exp2                          -- next
+  Exp2        = Exp3 relop Exp3               -- compare
+              | Exp3                          -- next
+  Exp3        = Exp3 addop Exp4               -- add
+              | Exp4                          -- next
+  Exp4        = Exp4 mulop Exp5               -- mul
+              | Exp5                          -- next
+  Exp5        = unop Exp6                     -- unary
+              | Exp6                          -- next
+  Exp6        = Exp6 "." id                   -- member
+              | Exp7                          -- next
+  Exp7        = true | false
+              | intlit
+              | strlit
+              | Call
+              | id                            -- id
+              | "(" Exp ")"                   -- parens
+  
+  Call        = id "(" Args ")"
+  Args        = ListOf<Exp, ",">
+  
+  // Lexical rules
+  id          = ~keyword letter (alnum | "_")*
+  intlit      = digit+
+  strlit      = "\"" (~"\"" any)* "\""
+  true        = "true"
+  false       = "false"
+  keyword     = "struct" | "fn" | "let" | "return" | "break" | "if" | "else" | "while" | "print" | "true" | "false" | "int" | "string" | "bool" | "void"
+  
+  relop       = "<=" | "<" | "==" | "!=" | ">=" | ">"
+  addop       = "+" | "-"
+  mulop       = "*" | "/" | "%"
+  unop        = "-" | "!"
+  
+  space      += "//" (~"\n" any)*             -- comment
+}
