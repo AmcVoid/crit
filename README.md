@@ -4,6 +4,14 @@
 
 Crit is a statically typed, educational programming language with C-like syntax that compiles to JavaScript. Designed for clarity and correctness, Crit catches errors at compile time so your code lands every hit. The compiler is built in JavaScript using the [Ohm.js](https://ohmjs.org/) parsing framework.
 
+## Story
+
+Crit takes its name from the tabletop RPG concept of rolling a natural 20, a critical hit. In those games, a crit means you executed perfectly: no fumbles, no wasted moves. That's the philosophy behind this language. The compiler is your dungeon master, and it does not let mistakes slide. Every type error, undeclared variable, and argument mismatch is caught at compile time, long before your program ever runs.
+
+The language was designed to be minimal and teachable. Its C-like syntax is immediately readable to anyone with programming experience, while its static type system enforces discipline. There is no runtime ambiguity.  What you declare is what you get. Structs compile to ES6 classes, functions map directly to JavaScript functions, and the optimizer folds constant expressions away before code is ever emitted.
+
+Crit is built as a project to explore the full compiler pipeline: PEG grammars with Ohm.js, context-based semantic analysis, AST construction, constant folding, and code generation.  All in one focused, readable codebase. If you are learning how compilers work, or just want a language where the rules are enforced by the toolchain rather than by convention, Crit is built for you.
+
 ## Features
 
 - **Static Typing**: Types are checked at compile time with explicit annotations (`: int`, `: string`, etc.)
@@ -138,7 +146,11 @@ print(result);
 
 ## Companion Website
 
-See the [Crit companion website](https://amcvoid.github.io/lmu-cmsi3802/) for a full overview, syntax-highlighted examples, and grammar reference.
+See the [Crit companion website](https://amcvoid.github.io/crit/) for a full overview, syntax-highlighted examples, and grammar reference.
+
+## GitHub
+
+[Crit on GitHub](https://github.com/AmcVoid/crit)
 
 ## Grammar
 

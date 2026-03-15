@@ -125,4 +125,19 @@ describe('The Optimizer', () => {
         assert.include(js, 'new P(2)')
         assert.include(js, 'p.x')
     })
+
+    it('folds less than or equal comparison', () => {
+        const js = compile('let b: bool = 3 <= 3;')
+        assert.include(js, 'let b = true')
+    })
+
+    it('folds boolean equality', () => {
+        const js = compile('let b: bool = true == true;')
+        assert.include(js, 'let b = true')
+    })
+
+    it('folds boolean inequality', () => {
+        const js = compile('let b: bool = true != false;')
+        assert.include(js, 'let b = true')
+    })
 })

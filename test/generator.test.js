@@ -123,4 +123,36 @@ describe('The Generator', () => {
         const node = new core.VariableDeclaration('n', core.Type.INT, 42)
         assert.include(gen(node), 'let n = 42')
     })
+
+    it('generates string literal', () => {
+        const node = new core.VariableDeclaration('s', core.Type.STRING, 'hello')
+        assert.include(gen(node), '"hello"')
+    })
+
+    it('generates Parameter node as expression', () => {
+        const param = new core.Parameter('p', core.Type.INT)
+        const node = new core.ReturnStatement(param)
+        assert.include(gen(node), 'return p')
+    })
+
+    it('generates Field node as expression', () => {
+        const field = new core.Field('x', core.Type.INT)
+        const node = new core.ReturnStatement(field)
+        assert.include(gen(node), 'return x')
+    })
+
+    it('generates string via default branch', () => {
+        const node = new core.PrintStatement('world')
+        assert.include(gen(node), '"world"')
+    })
+
+    it('generates number via default branch', () => {
+        const node = new core.PrintStatement(99)
+        assert.include(gen(node), '99')
+    })
+
+    it('generates boolean via default branch', () => {
+        const node = new core.PrintStatement(false)
+        assert.include(gen(node), 'false')
+    })
 })

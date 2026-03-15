@@ -50,7 +50,6 @@ function typeOf(node) {
     if (node instanceof core.UnaryExpression) {
         return node.op === '!' ? core.Type.BOOL : core.Type.INT
     }
-    if (node instanceof core.MemberExpression) return core.Type.INT
     return core.Type.INT
 }
 
@@ -208,10 +207,7 @@ export default function analyze(match) {
         Exp7_id(id) {
             const entity = this.args.context.lookup(id.sourceString)
             if (!entity) throw new Error(`Undeclared identifier ${id.sourceString} in expression`)
-            if (entity.constructor.name === 'VariableDeclaration' || entity.constructor.name === 'Parameter') {
-                return new core.Variable(entity.name, entity.type)
-            }
-            return entity
+            return new core.Variable(entity.name, entity.type)
         },
 
         intlit(digits) { return parseInt(this.sourceString) },

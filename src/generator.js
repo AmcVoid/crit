@@ -79,12 +79,6 @@ export default function generate(program) {
             default:
                 // Handle primitive literals
                 if (typeof node === 'number' || typeof node === 'boolean') return node.toString()
-                if (typeof node === 'string') return `"${node}"`
-                if (Array.isArray(node)) {
-                    node.forEach(gen)
-                    return
-                }
-                throw new Error(`Unknown node type: ${node.constructor.name}`)
         }
     }
 

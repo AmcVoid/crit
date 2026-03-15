@@ -21,6 +21,11 @@ const semanticChecks = [
     ['unary negation', 'let x: int = -1;'],
     ['unary not', 'let b: bool = !false;'],
     ['type inference infers from bool', 'let b = true;'],
+    ['member expression type inference', 'struct P { x: int } let p = P(1); let v: int = p.x;'],
+    ['function used as callee (entity return)', 'fn f() -> void {} f();'],
+    ['struct used as callee (entity return)', 'struct S { x: int } let s = S(1);'],
+    ['function reference as callee entity', 'fn f(x: int) -> int { return x; } let r: int = f(f(1));'],
+    ['struct type used as function param type', 'struct S { x: int } fn g(s: S) -> void { print(s.x); } let s = S(1); g(s);'],
 ]
 
 const semanticErrors = [
